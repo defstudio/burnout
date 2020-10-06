@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
 
 
 namespace DefStudio\Burnout\Controllers;
@@ -8,12 +8,11 @@ use DefStudio\Burnout\Models\BurnoutEntry;
 use Facade\Ignition\ErrorPage\Renderer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 
 class BurnoutController
 {
-
-
     private Renderer $renderer;
 
     public function __construct(Renderer $renderer)
@@ -28,13 +27,6 @@ class BurnoutController
 
         $entries = BurnoutEntry::orderBy('id', 'desc')->get();
         return view('burnout::index')->with('entries', $entries);
-    }
-
-    private function authorize(): void
-    {
-        if (App::environment() == 'production') {
-            throw new AuthorizationException();
-        }
     }
 
     public function show(int $burnout_entry)
@@ -70,5 +62,22 @@ class BurnoutController
         return redirect()->to(route('burnout.index'));
     }
 
+    private function authorize(): void
+    {
+        if (App::environment() != 'local') return;
 
+        if ($this->is_current_user_allowed()) return;
+
+        throw new AuthorizationException();
+    }
+
+    private function is_current_user_allowed(): bool
+    {
+
+        if (Auth::guest()) return false;
+
+        if (!in_array(Auth::user()->email, config('burnout.allowed_users'))) return false;
+
+        return true;
+    }
 }
