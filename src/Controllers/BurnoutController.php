@@ -64,7 +64,7 @@ class BurnoutController
 
     private function authorize(): void
     {
-        if (App::environment() != 'local') return;
+        if (App::environment() == 'local') return;
 
         if ($this->is_current_user_allowed()) return;
 
