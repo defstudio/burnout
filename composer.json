@@ -3,7 +3,8 @@
     "description": "An opinionated Laravel Ignition log display",
     "keywords": [
         "defstudio",
-        "burnout"
+        "burnout",
+        "log"
     ],
     "homepage": "https://github.com/defstudio/burnout",
     "license": "MIT",
