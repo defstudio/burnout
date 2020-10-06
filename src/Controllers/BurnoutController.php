@@ -73,7 +73,7 @@ class BurnoutController
 
     private function is_current_user_allowed(): bool
     {
-        if (Auth::guest()) return false;
+        if (Auth::user()) return false;
 
         if (!in_array(
             Auth::user()->email,
