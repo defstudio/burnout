@@ -19,7 +19,7 @@ class Cleanup extends Command
             ? $this->argument('older_than_days')
             : config('burnout.delete_logs_older_than_days');
 
-        BurnoutEntry::where('created_at', '<=', now()->subDays($older_than_days))->delete();
+        BurnoutEntry::where('created_at', '<', now()->subDays($older_than_days))->delete();
 
         Log::debug('Burnout cleanup completed');
     }
