@@ -42,6 +42,7 @@ class Burnout
             'report' => $report->toArray(),
         ]);
 
+
         return $entry;
     }
 }

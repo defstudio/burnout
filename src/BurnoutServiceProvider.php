@@ -2,9 +2,11 @@
 
 namespace DefStudio\Burnout;
 
+use DefStudio\Burnout\Commands\Cleanup;
 use DefStudio\Burnout\Middleware\StoresExceptionsToBurnout;
 use DefStudio\Burnout\Models\BurnoutEntry;
 use DefStudio\Burnout\Policies\BurnoutEntryPolicy;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +27,17 @@ class BurnoutServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Cleanup::class
+            ]);
+        }
+
+        $this->app->booted(function ($app) {
+            $app->make(Schedule::class)->command('burnout:cleanup')->daily();
+        });
+
 
         $this->publishes([
             __DIR__ . '/../config/burnout.php' => config_path('burnout.php'),
