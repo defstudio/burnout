@@ -8,7 +8,6 @@ use DefStudio\Burnout\Policies\BurnoutEntryPolicy;
 use Facade\FlareClient\Report;
 use Facade\Ignition\Facades\Flare;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,18 +57,14 @@ class BurnoutServiceProvider extends ServiceProvider
 
         Flare::registerMiddleware(function (Report $report, $next) {
 
-            if (\Facades\Burnout::is_enabled()) {
-                \Facades\Burnout::store_report($report);
+            $burnout = new Burnout();
+
+            if ($burnout->is_enabled()) {
+                $burnout->store_report($report);
             }
 
             return $next($report);
         });
-    }
-
-    protected function registerMiddleware($middleware)
-    {
-        $kernel = $this->app->make(Kernel::class);
-        $kernel->pushMiddleware($middleware);
     }
 
     public function register()

@@ -26,7 +26,7 @@ class Burnout
     }
 
 
-    private function store_report(Report $report): BurnoutEntry
+    public function store_report(Report $report): BurnoutEntry
     {
         $throwable = $report->getThrowable();
 
