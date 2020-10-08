@@ -31,12 +31,12 @@ class StoresExceptionsToBurnout
         try {
             $response = $next($request);
         } catch (Exception $exception) {
-            $this->burnout->handle($exception);
+            $response = $this->burnout->handle($request, $exception);
             throw $exception;
         }
 
         if (!empty($response->exception)) {
-            $this->burnout->handle($response->exception);
+            $response = $this->burnout->handle($request, $response->exception);
         }
 
         return $response;
