@@ -3,9 +3,10 @@
 namespace DefStudio\Burnout;
 
 use DefStudio\Burnout\Commands\Cleanup;
-use DefStudio\Burnout\Middleware\StoresExceptionsToBurnout;
 use DefStudio\Burnout\Models\BurnoutEntry;
 use DefStudio\Burnout\Policies\BurnoutEntryPolicy;
+use Facade\FlareClient\Report;
+use Facade\Ignition\Facades\Flare;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Gate;
@@ -55,7 +56,14 @@ class BurnoutServiceProvider extends ServiceProvider
 
         Gate::policy(BurnoutEntry::class, BurnoutEntryPolicy::class);
 
-        $this->registerMiddleware(StoresExceptionsToBurnout::class);
+        Flare::registerMiddleware(function (Report $report, $next) {
+
+            if (\Facades\Burnout::is_enabled()) {
+                \Facades\Burnout::store_report($report);
+            }
+
+            return $next($report);
+        });
     }
 
     protected function registerMiddleware($middleware)
