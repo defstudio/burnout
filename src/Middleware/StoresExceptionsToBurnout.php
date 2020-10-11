@@ -7,6 +7,7 @@ namespace DefStudio\Burnout\Middleware;
 use Closure;
 use DefStudio\Burnout\Burnout;
 use Exception;
+use Illuminate\Validation\ValidationException;
 
 class StoresExceptionsToBurnout
 {
@@ -31,11 +32,11 @@ class StoresExceptionsToBurnout
         try {
             $response = $next($request);
         } catch (Exception $exception) {
-            $response = $this->burnout->handle($request, $exception);
+            $this->burnout->handle($request, $exception);
             throw $exception;
         }
 
-        if (!empty($response->exception)) {
+        if (!empty($response->exception) && !($response->exception instanceof ValidationException)) {
             $response = $this->burnout->handle($request, $response->exception);
         }
 

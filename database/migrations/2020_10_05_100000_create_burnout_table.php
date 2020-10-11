@@ -10,7 +10,7 @@ class CreateBurnoutTable extends Migration
     {
         Schema::create('burnout_entries', function (Blueprint $table) {
             $table->id('id');
-            $table->string('message');
+            $table->text('message');
             $table->string('file');
             $table->integer('line');
             $table->text('trace');
