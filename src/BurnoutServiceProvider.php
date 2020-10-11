@@ -3,11 +3,11 @@
 namespace DefStudio\Burnout;
 
 use DefStudio\Burnout\Commands\Cleanup;
+use DefStudio\Burnout\Middleware\StoresExceptionsToBurnout;
 use DefStudio\Burnout\Models\BurnoutEntry;
 use DefStudio\Burnout\Policies\BurnoutEntryPolicy;
-use Facade\FlareClient\Report;
-use Facade\Ignition\Facades\Flare;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -55,16 +55,13 @@ class BurnoutServiceProvider extends ServiceProvider
 
         Gate::policy(BurnoutEntry::class, BurnoutEntryPolicy::class);
 
-        Flare::registerMiddleware(function (Report $report, $next) {
+        $this->registerMiddleware(StoresExceptionsToBurnout::class);
+    }
 
-            $burnout = new Burnout();
-
-            if ($burnout->is_enabled()) {
-                $burnout->store_report($report);
-            }
-
-            return $next($report);
-        });
+    protected function registerMiddleware($middleware)
+    {
+        $kernel = $this->app->make(Kernel::class);
+        $kernel->pushMiddleware($middleware);
     }
 
     public function register()
