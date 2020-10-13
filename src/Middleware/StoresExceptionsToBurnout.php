@@ -36,7 +36,7 @@ class StoresExceptionsToBurnout
         }
 
         if (!empty($response->exception)) {
-            $response = $this->burnout->handle($request, $response->exception);
+            $response = $this->burnout->handle($response, $response->exception);
         }
 
         return $response;
