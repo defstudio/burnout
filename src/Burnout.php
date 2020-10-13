@@ -31,6 +31,10 @@ class Burnout
     public function handle($request, Throwable $exception)
     {
 
+        if (in_array(get_class($exception), config('burnout.skip_exceptions', []))) {
+            return $request;
+        }
+
         $report = $this->flare_client->createReport($exception);
 
         $this->store_report($report);
