@@ -32,7 +32,7 @@ class Burnout
     {
 
         if (in_array(get_class($exception), config('burnout.skip_exceptions', []))) {
-            return $request;
+            return null;
         }
 
         $report = $this->flare_client->createReport($exception);
