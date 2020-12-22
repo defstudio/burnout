@@ -29,7 +29,7 @@ use DefStudio\Burnout\Models\BurnoutEntry;
         <tbody>
         @foreach($entries as $entry)
             <tr>
-                <td class="border px-4 py-2">{!! $entry->created_at->format('d/m/Y&\nb\sp;H:i:s') !!}</td>
+                <td class="border px-4 py-2">{!! $entry->created_at->format('d/m/Y&\nb\s\p;H:i:s') !!}</td>
                 <td class="border px-4 py-2">{{$entry->message}}</td>
                 <td class="border px-4 py-2"><a href="{{route('burnout.show', $entry)}}">View</a></td>
                 <td class="border px-4 py-2">
