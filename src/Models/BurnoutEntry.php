@@ -1,5 +1,9 @@
 <?php
-
+/*
+ * Copyright (C) 2020. Def Studio
+ *  Unauthorized copying of this file, via any medium is strictly prohibited
+ *  Authors: Fabio Ivona <fabio.ivona@defstudio.it> & Daniele Romeo <danieleromeo@defstudio.it>
+ */
 
 namespace DefStudio\Burnout\Models;
 
@@ -37,27 +41,27 @@ class BurnoutEntry extends Model
     public function view_data(): array
     {
         return [
-            'throwableString' => $this->throwable_string(),
-            'telescopeUrl' => $this->telescope_url(),
-            'shareEndpoint' => $this->share_endpoint(),
-            'title' => $this->title(),
-            'config' => $this->config(),
-            'solutions' => [],
-            'report' => $this->report,
+            'throwableString'      => $this->throwable_string(),
+            'telescopeUrl'         => $this->telescope_url(),
+            'shareEndpoint'        => $this->share_endpoint(),
+            'title'                => $this->title(),
+            'config'               => $this->config(),
+            'solutions'            => [],
+            'report'               => $this->report,
             'housekeepingEndpoint' => url(config('ignition.housekeeping_endpoint_prefix', '_ignition')),
-            'styles' => $this->styles(),
-            'scripts' => $this->scripts(),
-            'tabs' => $this->tabs(),
-            'jsonEncode' => Closure::fromCallable([
+            'styles'               => $this->styles(),
+            'scripts'              => $this->scripts(),
+            'tabs'                 => $this->tabs(),
+            'jsonEncode'           => Closure::fromCallable([
                 $this,
                 'json_encode',
             ]),
-            'getAssetContents' => Closure::fromCallable([
+            'getAssetContents'     => Closure::fromCallable([
                 $this,
                 'get_asset_contents',
             ]),
-            'defaultTab' => 'stackTab',
-            'defaultTabProps' => [],
+            'defaultTab'           => 'stackTab',
+            'defaultTabProps'      => [],
         ];
     }
 
