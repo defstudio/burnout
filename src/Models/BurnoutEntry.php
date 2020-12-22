@@ -4,6 +4,7 @@
 namespace DefStudio\Burnout\Models;
 
 
+use Carbon\Carbon;
 use Closure;
 use Exception;
 use Facade\Ignition\Ignition;
@@ -13,6 +14,10 @@ use Laravel\Telescope\Http\Controllers\HomeController;
 use Laravel\Telescope\IncomingExceptionEntry;
 use Laravel\Telescope\Telescope;
 
+
+/**
+ * @property-read Carbon $created_at
+ */
 class BurnoutEntry extends Model
 {
     protected $fillable = [
@@ -58,7 +63,9 @@ class BurnoutEntry extends Model
 
     private function throwable_string(): string
     {
-        if (empty($this->message)) return '';
+        if (empty($this->message)) {
+            return '';
+        }
 
         $throwableString = sprintf("%s: %s in file %s on line %d\n\n%s\n", $this->throwable_class, $this->message, $this->file, $this->line, $this->trace);
 
