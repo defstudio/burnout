@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2020. Def Studio
+ * Copyright (C) 2021. Def Studio
  *  Unauthorized copying of this file, via any medium is strictly prohibited
  *  Authors: Fabio Ivona <fabio.ivona@defstudio.it> & Daniele Romeo <danieleromeo@defstudio.it>
  */
@@ -62,6 +62,8 @@ class BurnoutEntry extends Model
             ]),
             'defaultTab'           => 'stackTab',
             'defaultTabProps'      => [],
+            'appEnv'               => config('app.env'),
+            'appDebug'             => config('app.debug'),
         ];
     }
 
