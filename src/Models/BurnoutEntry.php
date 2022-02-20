@@ -19,9 +19,6 @@ use Laravel\Telescope\IncomingExceptionEntry;
 use Laravel\Telescope\Telescope;
 
 
-/**
- * @property-read Carbon $created_at
- */
 class BurnoutEntry extends Model
 {
     protected $fillable = [
